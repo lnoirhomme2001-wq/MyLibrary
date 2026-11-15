@@ -38,12 +38,15 @@ details.box>summary{cursor:pointer;padding:12px 0;font-weight:600}
 .card{display:flex;flex-direction:column;border-bottom:1px solid var(--line);padding-bottom:10px}
 .card img{width:110px;height:165px;object-fit:cover;border-radius:4px;box-shadow:0 4px 8px rgba(0,0,0,.25);align-self:center;margin-bottom:6px;cursor:pointer}
 .card .edit{width:100%;margin-bottom:6px}
-.ti{font-weight:700;font-size:.95em;line-height:1.2em}
-.au{font-style:italic;font-size:.9em;color:var(--muted);margin-top:2px}
-.saga{font-size:.85em;color:var(--muted);margin-top:2px}
-.inf{font-size:.85em;display:flex;flex-direction:column;gap:3px;margin-top:6px}
-.chip{background:var(--chip);padding:2px 5px;border-radius:4px;display:inline-block}
-.l1{font-size:.92em;line-height:1.9}
+/* Emplacements à hauteur fixe : chaque info est toujours au même endroit, même si elle est vide */
+.c2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ti{font-weight:700;font-size:.95em;line-height:1.25em;height:2.5em}
+.saga{font-size:.85em;color:var(--muted);line-height:1.25em;height:2.5em;margin-top:2px}
+.au{font-style:italic;font-size:.9em;color:var(--muted);line-height:1.25em;height:2.5em;margin-top:2px}
+.chip{background:var(--chip);padding:1px 5px;border-radius:4px;display:inline-block}
+.l1{font-size:.88em;line-height:1.7;height:3.4em;overflow:hidden;margin-top:4px}
+.dt{font-size:.85em;color:var(--muted);height:1.6em;line-height:1.6em;white-space:nowrap;overflow:hidden}
+.nt{font-size:.85em;height:1.6em;line-height:1.6em;white-space:nowrap;overflow:hidden}
 .st{padding:2px 6px;border-radius:4px;background:rgba(0,200,100,.15);color:#00a050}
 .sagahead{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:.95em}
 .bar{width:100px;height:12px;background:var(--line);border-radius:4px;overflow:hidden}
@@ -60,7 +63,7 @@ dialog input,dialog select{width:100%;margin-top:3px}
 <header>
   <h1>📚 Ma Bibliothèque Virtuelle</h1>
   <div id="syncStatus" class="muted" style="font-size:.85rem;margin-bottom:2px"></div>
-  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v4 · tomes décimaux · ligne statut</div>
+  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v5 · tomes décimaux · ligne statut · emplacements fixes</div>
 </header>
 <div id="banner"></div>
 <nav id="tabs"></nav>
@@ -191,23 +194,29 @@ function renderMetrics(){
 function stars(v,full,half){const p=Math.floor(v);return full.repeat(p)+((v-p)>=.5?half:"")}
 function card(b,mini){
   const img=(!b.couverture_url||!b.couverture_url.trim()||b.couverture_url===PH_OLD)?PLACEHOLDER:b.couverture_url;
-  let titre=b.titre,badge="";
-  if(b.saga&&b.tome>0)badge=`<div class="saga">🧬 ${esc(b.saga)} — Vol. ${b.tome}</div>`;
+  let titre=b.titre,saga="";
+  if(b.saga&&b.tome>0)saga=`🧬 ${esc(b.saga)} — Vol. ${b.tome}`;
   else if(b.tome>0)titre=`${b.titre} (T. ${b.tome})`;
   const chips=[];
   if(b.langue&&b.langue!=="Aucun")chips.push(`<span class="chip">${esc(b.langue)}</span>`);
   if(b.format&&b.format!=="Aucun")chips.push(`<span class="chip">${esc(b.format)}</span>`);
   const ligne=[`<b>Statut :</b> <span class="st">${esc(b.statut)}</span>`,...chips].join(' <span class="muted">|</span> ');
-  let inf=`<div class="l1">${ligne}</div>`;
+  let date="";
   if(b.statut==="Lu"){
     const d=[];if(b.mois_lecture!=="Aucun")d.push(b.mois_lecture);if(b.annee_lecture!=="Aucune")d.push(b.annee_lecture);
-    if(d.length)inf+=`<div class="muted">📅 ${esc(d.join(" "))}</div>`;
+    if(d.length)date=`📅 ${esc(d.join(" "))}`;
   }
-  if(b.story>0)inf+=`<div style="font-size:.9em"><b>Story :</b> ${stars(b.story,"❤️‍🔥","🔥")}</div>`;
-  if(b.reading>0)inf+=`<div style="font-size:.9em"><b>Reading :</b> ${stars(b.reading,"📚","📖")}</div>`;
+  const story=b.story>0?`<b>Story :</b> ${stars(b.story,"❤️‍🔥","🔥")}`:"";
+  const reading=b.reading>0?`<b>Reading :</b> ${stars(b.reading,"📚","📖")}`:"";
   return `<div class="card"><img src="${esc(img)}" alt="" loading="lazy" data-edit="${b.id}">
     <button class="btn edit" data-edit="${b.id}">Modifier</button>
-    <div class="ti">${esc(titre)}</div>${badge}<div class="au">${esc(b.auteur)}</div><div class="inf">${inf}</div></div>`;
+    <div class="ti c2" title="${esc(titre)}">${esc(titre)}</div>
+    <div class="saga c2">${saga}</div>
+    <div class="au c2" title="${esc(b.auteur)}">${esc(b.auteur)}</div>
+    <div class="l1">${ligne}</div>
+    <div class="dt">${date}</div>
+    <div class="nt">${story}</div>
+    <div class="nt">${reading}</div></div>`;
 }
 function renderList(){
   const q=$("q").value.trim().toLowerCase();
