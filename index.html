@@ -42,7 +42,8 @@ details.box>summary{cursor:pointer;padding:12px 0;font-weight:600}
 .au{font-style:italic;font-size:.9em;color:var(--muted);margin-top:2px}
 .saga{font-size:.85em;color:var(--muted);margin-top:2px}
 .inf{font-size:.85em;display:flex;flex-direction:column;gap:3px;margin-top:6px}
-.chip{background:var(--chip);padding:2px 6px;border-radius:4px;display:inline-block}
+.chip{background:var(--chip);padding:2px 5px;border-radius:4px;display:inline-block}
+.l1{font-size:.92em;line-height:1.9}
 .st{padding:2px 6px;border-radius:4px;background:rgba(0,200,100,.15);color:#00a050}
 .sagahead{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:.95em}
 .bar{width:100px;height:12px;background:var(--line);border-radius:4px;overflow:hidden}
@@ -59,7 +60,7 @@ dialog input,dialog select{width:100%;margin-top:3px}
 <header>
   <h1>📚 Ma Bibliothèque Virtuelle</h1>
   <div id="syncStatus" class="muted" style="font-size:.85rem;margin-bottom:2px"></div>
-  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v3 · tomes décimaux</div>
+  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v4 · tomes décimaux · ligne statut</div>
 </header>
 <div id="banner"></div>
 <nav id="tabs"></nav>
@@ -196,12 +197,12 @@ function card(b,mini){
   const chips=[];
   if(b.langue&&b.langue!=="Aucun")chips.push(`<span class="chip">${esc(b.langue)}</span>`);
   if(b.format&&b.format!=="Aucun")chips.push(`<span class="chip">${esc(b.format)}</span>`);
-  let inf=`<div><b>Statut :</b> <span class="st">${esc(b.statut)}</span></div>`;
+  const ligne=[`<b>Statut :</b> <span class="st">${esc(b.statut)}</span>`,...chips].join(' <span class="muted">|</span> ');
+  let inf=`<div class="l1">${ligne}</div>`;
   if(b.statut==="Lu"){
     const d=[];if(b.mois_lecture!=="Aucun")d.push(b.mois_lecture);if(b.annee_lecture!=="Aucune")d.push(b.annee_lecture);
     if(d.length)inf+=`<div class="muted">📅 ${esc(d.join(" "))}</div>`;
   }
-  if(chips.length)inf+=`<div>${chips.join(" | ")}</div>`;
   if(b.story>0)inf+=`<div style="font-size:.9em"><b>Story :</b> ${stars(b.story,"❤️‍🔥","🔥")}</div>`;
   if(b.reading>0)inf+=`<div style="font-size:.9em"><b>Reading :</b> ${stars(b.reading,"📚","📖")}</div>`;
   return `<div class="card"><img src="${esc(img)}" alt="" loading="lazy" data-edit="${b.id}">
