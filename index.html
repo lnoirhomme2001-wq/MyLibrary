@@ -63,9 +63,9 @@ dialog input,dialog select{width:100%;margin-top:3px}
 </head>
 <body>
 <header>
-  <h1>Virtual library</h1>
+  <h1>📚 Ma Bibliothèque Virtuelle</h1>
   <div id="syncStatus" class="muted" style="font-size:.85rem;margin-bottom:2px"></div>
-  <div class="muted" style="font-size:.7rem;margin-bottom:6px">Doudou & Choupi</div>
+  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v6 · cartes élargies · emplacements fixes</div>
 </header>
 <div id="banner"></div>
 <nav id="tabs"></nav>
@@ -75,15 +75,15 @@ dialog input,dialog select{width:100%;margin-top:3px}
   <div class="metrics" id="metrics"></div>
 
   <div class="row">
-    <button class="btn primary" onclick="openBook(null)">➕ Add a book</button>
-    <input id="q" placeholder="🔎 Search (title, author, saga)…" style="flex:1;min-width:200px">
+    <button class="btn primary" onclick="openBook(null)">➕ Ajouter un livre</button>
+    <input id="q" placeholder="🔎 Rechercher (titre, auteur, saga)…" style="flex:1;min-width:200px">
   </div>
 
-  <details class="box" id="stG"><summary>Overall Statistics</summary>
-    <div class="two"><div><h4>Breakdown of Statuses</h4><div class="cv"><canvas id="cStat"></canvas></div></div>
-    <div><h4>Reading progress</h4><div class="cv"><canvas id="cEvo"></canvas></div></div></div>
+  <details class="box" id="stG"><summary>Statistiques globales</summary>
+    <div class="two"><div><h4>Répartition des statuts</h4><div class="cv"><canvas id="cStat"></canvas></div></div>
+    <div><h4>Évolution lecture</h4><div class="cv"><canvas id="cEvo"></canvas></div></div></div>
   </details>
-  <details class="box" id="stL"><summary>Reading statistics</summary>
+  <details class="box" id="stL"><summary>Statistiques de lecture</summary>
     <div class="yr" id="yrTabs"></div><div id="yrBody"></div>
   </details>
 
@@ -92,16 +92,22 @@ dialog input,dialog select{width:100%;margin-top:3px}
 </section>
 
 <section class="tab" id="t-reglages">
-  <h3>☁️ Synchronization Google Sheets</h3>
-  <p class="muted">Enter this information once per device. Everything is then sent and reloaded automatically..</p>
+  <h3>☁️ Synchronisation Google Sheets</h3>
+  <p class="muted">À renseigner une fois par appareil. Tout est ensuite envoyé et rechargé automatiquement.</p>
   <div class="row"><input id="syUrl" placeholder="Adresse de l'application web (…/exec)" style="flex:1;min-width:260px"></div>
   <div class="row"><input id="syKey" type="password" placeholder="Clé secrète" style="flex:1;min-width:200px"></div>
   <div class="row">
-    <button class="btn primary" onclick="saveSync()">Save and Sync</button>
-    <button class="btn" onclick="forcePull()">⬇️ Import from Sheets</button>
-    <button class="btn" onclick="forcePush()">⬆️ Crush Sheets with this device</button>
-    <button class="btn" onclick="stopSync()">Disable</button>
+    <button class="btn primary" onclick="saveSync()">Enregistrer et synchroniser</button>
+    <button class="btn" onclick="forcePull()">⬇️ Recharger depuis Sheets</button>
+    <button class="btn" onclick="forcePush()">⬆️ Écraser Sheets avec cet appareil</button>
+    <button class="btn" onclick="stopSync()">Désactiver</button>
   </div>
+
+  <h3>📦 Reprendre vos livres existants (bibliotheque.db)</h3>
+  <p class="muted">Au premier lancement, si <code>bibliotheque.db</code> est dans le dépôt à côté de cette page, elle est lue automatiquement. Sinon, choisissez le fichier ici.</p>
+  <div class="row"><input type="file" id="impDb" accept=".db,.sqlite,.sqlite3"></div>
+  <div class="row"><button class="btn" onclick="importFromRepoDB()">Relire bibliotheque.db du dépôt</button></div>
+  <p id="impMsg"></p>
 
   <h3>📥 Sauvegarde</h3>
   <div class="row"><button class="btn" onclick="exportCSV()">⬇️ Exporter tous les livres (CSV)</button></div>
