@@ -58,7 +58,8 @@ dialog input,dialog select{width:100%;margin-top:3px}
 <body>
 <header>
   <h1>📚 Ma Bibliothèque Virtuelle</h1>
-  <div id="syncStatus" class="muted" style="font-size:.85rem;margin-bottom:6px"></div>
+  <div id="syncStatus" class="muted" style="font-size:.85rem;margin-bottom:2px"></div>
+  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v3 · tomes décimaux</div>
 </header>
 <div id="banner"></div>
 <nav id="tabs"></nav>
@@ -295,7 +296,7 @@ function openBook(id){
   <label>Auteur<input id="f_auteur" value="${esc(b.auteur)}"></label>
   <label>URL image couverture<input id="f_url" value="${esc(b.couverture_url===PH_OLD?"":b.couverture_url)}"></label>
   <label>Nom de la saga (vide si aucune)<input id="f_saga" value="${esc(b.saga)}"></label>
-  <div class="two-c"><label>Numéro du tome (ex. 3.5)<input id="f_tome" type="number" min="0" max="100" step="0.5" value="${b.tome}"></label>
+  <div class="two-c"><label>Numéro du tome (ex. 3.5)<input id="f_tome" type="text" inputmode="decimal" value="${b.tome}"></label>
   <label>Nombre de pages<input id="f_pages" type="number" min="0" max="10000" value="${b.nombre_pages}"></label></div>
   <label>Statut de lecture<select id="f_statut">${opts(STATUTS,b.statut)}</select></label>
   <div id="f_date" style="display:${b.statut==="Lu"?"block":"none"}"><div class="two-c">
@@ -315,7 +316,7 @@ function openBook(id){
 function saveBook(){
   const titre=$("f_titre").value.trim(),auteur=$("f_auteur").value.trim();
   if(!titre||!auteur){alert("Le titre et l'auteur sont obligatoires.");return}
-  const num=(id,min,max)=>Math.min(max,Math.max(min,parseFloat($(id).value)||0));
+  const num=(id,min,max)=>Math.min(max,Math.max(min,parseFloat(String($(id).value).replace(",","."))||0));
   const statut=$("f_statut").value;
   const data={titre,auteur,couverture_url:$("f_url").value.trim(),saga:$("f_saga").value.trim(),
     tome:Math.round(num("f_tome",0,100)*2)/2,nombre_pages:Math.round(num("f_pages",0,10000)),statut,
