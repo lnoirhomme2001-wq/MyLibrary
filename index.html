@@ -35,7 +35,7 @@ details.box>summary{cursor:pointer;padding:12px 0;font-weight:600}
 .yr button{padding:6px 12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:20px;cursor:pointer}
 .yr button.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
-/* Sur grand écran : cartes plus larges pour un affichage confortable */
+/* Sur grand écran : cartes plus larges pour que « Statut | Langue | Format » tienne sur une seule ligne */
 @media (min-width:900px){.grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}}
 .card{display:flex;flex-direction:column;border-bottom:1px solid var(--line);padding-bottom:10px}
 .card img{width:110px;height:165px;object-fit:cover;border-radius:4px;box-shadow:0 4px 8px rgba(0,0,0,.25);align-self:center;margin-bottom:6px;cursor:pointer}
@@ -202,8 +202,7 @@ function card(b,mini){
   const chips=[];
   if(b.langue&&b.langue!=="Aucun")chips.push(`<span class="chip">${esc(b.langue)}</span>`);
   if(b.format&&b.format!=="Aucun")chips.push(`<span class="chip">${esc(b.format)}</span>`);
-  const ligneStatut=`<b>Statut :</b> <span class="st">${esc(b.statut)}</span>`;
-  const ligneInfos=chips.join(' <span class="muted">|</span> ');
+  const ligne=[`<b>Statut :</b> <span class="st">${esc(b.statut)}</span>`,...chips].join(' <span class="muted">|</span> ');
   let date="";
   if(b.statut==="Lu"){
     const d=[];if(b.mois_lecture!=="Aucun")d.push(b.mois_lecture);if(b.annee_lecture!=="Aucune")d.push(b.annee_lecture);
@@ -216,10 +215,7 @@ function card(b,mini){
     <div class="ti c2" title="${esc(titre)}">${esc(titre)}</div>
     <div class="saga c2">${saga}</div>
     <div class="au c2" title="${esc(b.auteur)}">${esc(b.auteur)}</div>
-    <div class="l1" style="display:flex;flex-direction:column;gap:0">
-      <div>${ligneStatut}</div>
-      <div>${ligneInfos}</div>
-    </div>
+    <div class="l1">${ligne}</div>
     <div class="dt">${date}</div>
     <div class="nt">${story}</div>
     <div class="nt">${reading}</div></div>`;
