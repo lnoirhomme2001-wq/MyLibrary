@@ -202,8 +202,8 @@ function card(b,mini){
   const chips=[];
   if(b.langue&&b.langue!=="Aucun")chips.push(`<span class="chip">${esc(b.langue)}</span>`);
   if(b.format&&b.format!=="Aucun")chips.push(`<span class="chip">${esc(b.format)}</span>`);
-  const ligne=[`<b>Statut :</b> <span class="st">${esc(b.statut)}</span>`,...chips].join(' <span class="muted">|</span> ');
-  let date="";
+  const ligneStatut=`<b>Statut :</b> <span class="st">${esc(b.statut)}</span>`;
+  const ligneInfos=chips.join(' <span class="muted">|</span> ');
   if(b.statut==="Lu"){
     const d=[];if(b.mois_lecture!=="Aucun")d.push(b.mois_lecture);if(b.annee_lecture!=="Aucune")d.push(b.annee_lecture);
     if(d.length)date=`📅 ${esc(d.join(" "))}`;
