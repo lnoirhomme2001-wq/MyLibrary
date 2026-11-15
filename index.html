@@ -35,6 +35,8 @@ details.box>summary{cursor:pointer;padding:12px 0;font-weight:600}
 .yr button{padding:6px 12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:20px;cursor:pointer}
 .yr button.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+/* Sur grand écran : cartes plus larges pour que « Statut | Langue | Format » tienne sur une seule ligne */
+@media (min-width:900px){.grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}}
 .card{display:flex;flex-direction:column;border-bottom:1px solid var(--line);padding-bottom:10px}
 .card img{width:110px;height:165px;object-fit:cover;border-radius:4px;box-shadow:0 4px 8px rgba(0,0,0,.25);align-self:center;margin-bottom:6px;cursor:pointer}
 .card .edit{width:100%;margin-bottom:6px}
@@ -43,8 +45,8 @@ details.box>summary{cursor:pointer;padding:12px 0;font-weight:600}
 .ti{font-weight:700;font-size:.95em;line-height:1.25em;height:2.5em}
 .saga{font-size:.85em;color:var(--muted);line-height:1.25em;height:2.5em;margin-top:2px}
 .au{font-style:italic;font-size:.9em;color:var(--muted);line-height:1.25em;height:2.5em;margin-top:2px}
-.chip{background:var(--chip);padding:1px 5px;border-radius:4px;display:inline-block}
-.l1{font-size:.88em;line-height:1.7;height:3.4em;overflow:hidden;margin-top:4px}
+.chip{background:var(--chip);padding:1px 4px;border-radius:4px;display:inline-block}
+.l1{font-size:.8em;line-height:1.8;height:3.6em;overflow:hidden;margin-top:4px}
 .dt{font-size:.85em;color:var(--muted);height:1.6em;line-height:1.6em;white-space:nowrap;overflow:hidden}
 .nt{font-size:.85em;height:1.6em;line-height:1.6em;white-space:nowrap;overflow:hidden}
 .st{padding:2px 6px;border-radius:4px;background:rgba(0,200,100,.15);color:#00a050}
@@ -63,7 +65,7 @@ dialog input,dialog select{width:100%;margin-top:3px}
 <header>
   <h1>📚 Ma Bibliothèque Virtuelle</h1>
   <div id="syncStatus" class="muted" style="font-size:.85rem;margin-bottom:2px"></div>
-  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v5 · tomes décimaux · ligne statut · emplacements fixes</div>
+  <div class="muted" style="font-size:.7rem;margin-bottom:6px">version v6 · cartes élargies · emplacements fixes</div>
 </header>
 <div id="banner"></div>
 <nav id="tabs"></nav>
